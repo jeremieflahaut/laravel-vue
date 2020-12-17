@@ -1,21 +1,43 @@
 <template>
-    <v-container>
-        <v-form v-model="valid">
-            <v-container>
-                <v-row>
-                    <v-col cols="12" md="4">
-                        <v-text-field v-model="form.email" label="Email" required></v-text-field>
-                        <v-alert dense outlined type="error" v-if="errors.email">{{ errors.email[0] }}</v-alert>
-                        <v-text-field v-model="form.password" label="Password" required></v-text-field>
-                        <v-alert dense outlined type="error" v-if="errors.password">{{ errors.password[0] }}</v-alert>
-                        <v-btn @click="login" class="mr-4">Login</v-btn>
-                        <v-btn @click="reset">Reset</v-btn>
-                    </v-col>
-                </v-row>
-            </v-container>
+    <v-container class="fill-height" fluid>
+        <v-row align="center" justify="center">
+            <v-col cols="12" sm="4" md="4">
+                <v-card class="elevation-12">
+                    <v-toolbar dark color="primary">
+                        <v-toolbar-title>Sign In</v-toolbar-title>
+                    </v-toolbar>
+                    <v-card-text>
+                        <v-form v-model="valid">
+                            <v-text-field
+                                v-model="form.email"
+                                label="Email"
+                                required
+                            ></v-text-field>
+                            <v-alert dense outlined type="error" v-if="errors.email">{{ errors.email[0] }}</v-alert>
 
-        </v-form>
+                            <v-text-field
+                                :type="show ? 'text' : 'password'"
+                                :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                                @click:append="show = !show"
+                                v-model="form.password"
+                                label="Password"
+                                required
+                            ></v-text-field>
+                            <v-alert dense outlined type="error" v-if="errors.password">{{ errors.password[0] }}</v-alert>
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn text color="primary" @click="login" class="mr-4">Login</v-btn>
+                        <v-spacer></v-spacer>
+                        <v-btn text @click="reset">Reset</v-btn>
+                    </v-card-actions>
+
+                </v-card>
+            </v-col>
+
+        </v-row>
     </v-container>
+
 </template>
 <script>
 
@@ -28,7 +50,8 @@ export default {
                 email: '',
                 password: ''
             },
-            errors: []
+            errors: [],
+            show: false
         }
     },
     computed: {},
