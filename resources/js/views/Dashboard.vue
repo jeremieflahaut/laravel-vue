@@ -8,8 +8,6 @@
 </template>
 <script>
 
-import user from '../api/user';
-
 export default {
     computed: {},
     data() {
@@ -18,7 +16,7 @@ export default {
         }
     },
     mounted() {
-        user.auth()
+        this.$http.get('/user')
             .then(response => {
                 this.user = response.data;
             })
@@ -29,7 +27,7 @@ export default {
 
     methods: {
         logout() {
-            user.logout().then(() => {
+            this.$http.post('/logout').then(() => {
                 localStorage.removeItem('auth');
                 this.$router.push({ name: 'Login' })
             })

@@ -4,8 +4,6 @@ import Router from 'vue-router'
 import Login from '../views/Login'
 import Dashboard from '../views/Dashboard'
 
-
-
 Vue.use(Router)
 
 const routes = [

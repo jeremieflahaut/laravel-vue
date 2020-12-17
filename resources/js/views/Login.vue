@@ -19,9 +19,6 @@
 </template>
 <script>
 
-
-import user from '../api/user';
-
 export default {
 
     data() {
@@ -37,7 +34,7 @@ export default {
     computed: {},
     methods: {
         login() {
-            user.login(this.form)
+            this.$http.post('/login', this.form)
                 .then(() => {
                     localStorage.setItem('auth', 'true');
                     this.$router.push({name: 'Dashboard'});
