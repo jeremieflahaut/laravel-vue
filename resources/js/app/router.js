@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Login from '../views/Login'
-import Dashboard from '../views/Dashboard'
-
 Vue.use(Router)
 
 const routes = [
@@ -14,14 +11,30 @@ const routes = [
     {
         path: "/login",
         name: 'Login',
-        component: Login,
+        component: () => import(/* webpackChunkName: "js/chunks/components" */'../views/Login'),
         meta: { guestOnly: true }
     },
     {
         path: "/dashboard",
         name: 'Dashboard',
-        component: Dashboard,
-        meta: { authOnly: true}
+        component: () => import(/* webpackChunkName: "js/chunks/components" */'../views/Dashboard'),
+        meta: { authOnly: true},
+        children: [
+            {
+                path: "covid-19",
+                name: 'covid-19',
+                component: () => import(/* webpackChunkName: "js/chunks/components" */'../views/Covid'),
+                meta: { authOnly: true}
+            }
+        ]
+    },
+
+
+
+
+    {
+        path: "*",
+        redirect: { name: 'Dashboard' }
     }
 ];
 

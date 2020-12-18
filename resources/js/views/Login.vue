@@ -4,7 +4,7 @@
             <v-col cols="12" sm="4" md="4">
                 <v-card class="elevation-12">
                     <v-toolbar dark color="primary">
-                        <v-toolbar-title>Sign In</v-toolbar-title>
+                        <v-toolbar-title>Jarvis Sign In</v-toolbar-title>
                     </v-toolbar>
                     <v-card-text>
                         <v-form v-model="valid">
@@ -27,9 +27,9 @@
                         </v-form>
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn text color="primary" @click="login" class="mr-4">Login</v-btn>
+                        <v-btn text color="primary" @click.prevent="login" class="mr-4">Login</v-btn>
                         <v-spacer></v-spacer>
-                        <v-btn text @click="reset">Reset</v-btn>
+                        <v-btn text @click.prevent="reset">Reset</v-btn>
                     </v-card-actions>
 
                 </v-card>

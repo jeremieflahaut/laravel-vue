@@ -1,20 +1,16 @@
 <template>
     <div>
-        <div v-if="user">
-            <a class="" @click="logout">Logout</a>
-            <span>Hello {{user.name}}</span>
-        </div>
+
+        <app-bar></app-bar>
+        <keep-alive>
+            <router-view></router-view>
+        </keep-alive>
+
     </div>
 </template>
 <script>
 
 export default {
-    computed: {},
-    data() {
-        return {
-            user: null
-        }
-    },
     mounted() {
         this.$http.get('/user')
             .then(response => {
@@ -24,14 +20,14 @@ export default {
                 this.$router.push({ name: 'Login'});
             })
     },
-
-    methods: {
-        logout() {
-            this.$http.post('/logout').then(() => {
-                localStorage.removeItem('auth');
-                this.$router.push({ name: 'Login' })
-            })
+    data() {
+        return {
+            user: null,
         }
+    },
+    components: {
+        AppBar: () => import(/* webpackChunkName: "js/chunks/components/Layout" */'../Layout/AppBar')
     }
 };
 </script>
+

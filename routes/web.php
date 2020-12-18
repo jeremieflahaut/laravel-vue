@@ -13,4 +13,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{any?}', \App\Http\Controllers\FrontController::class);
+Route::get('/{any?}', \App\Http\Controllers\FrontController::class)->where('any', '.*');
