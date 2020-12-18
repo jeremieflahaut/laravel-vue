@@ -1,32 +1,68 @@
 <template>
-    <v-app-bar dense>
-        <v-app-bar-nav-icon class="hidden-md-and-up" @click.prevent="sidebar = !sidebar"></v-app-bar-nav-icon>
-        <v-navigation-drawer v-model="sidebar" app hide-overlay temporary>
-            <v-list>
-                <v-list-item v-for="(item, i) in menuItems" exact :key="i" :to="item.path">{{item.title}}</v-list-item>
-                <v-list-item @click.prevent="logout">Logout </v-list-item>
+    <v-app-bar dense dark color="primary">
+        <v-app-bar-nav-icon class="" @click.prevent="sidebar = !sidebar"></v-app-bar-nav-icon>
+        <v-navigation-drawer v-model="sidebar" app hide-overlay temporary light>
+            <v-list-item class="text-center">
+                <v-list-item-content>
+                    <v-list-item-title>{{ name }}</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
+            <v-divider></v-divider>
+
+            <v-list dense>
+                <v-list-item exact to="/dashboard">
+                    <v-list-item-title>Accueil</v-list-item-title>
+                </v-list-item>
+
+                <v-divider></v-divider>
+
+                <v-list-group>
+                    <template v-slot:activator>
+                        <v-list-item-content>
+                            <v-list-item-title>Divers</v-list-item-title>
+                        </v-list-item-content>
+                    </template>
+
+                    <v-list-item exact to="/dashboard/covid-19">
+                        <v-list-item-icon>
+                            <v-icon>mdi-hospital-box-outline</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Covid-19</v-list-item-title>
+                    </v-list-item>
+                </v-list-group>
             </v-list>
+
+            <template v-slot:append>
+                <div class="pa-2">
+                    <v-btn block @click.prevent="logout" color="primary">Logout</v-btn>
+                </div>
+            </template>
         </v-navigation-drawer>
         <v-toolbar-title>Jarvis</v-toolbar-title>
-
-        <v-spacer></v-spacer>
-        <v-toolbar-items class="hidden-sm-and-down">
-            <v-btn text v-for="item in menuItems" :key="item.title">
-                <router-link tag="li" :to="item.path">{{item.title}}</router-link>
-            </v-btn>
-            <v-btn text @click.prevent="logout">Logout</v-btn>
-        </v-toolbar-items>
     </v-app-bar>
 </template>
 
 <script>
 export default {
+    created() {
+        this.$http.get('/user')
+            .then(response => {
+                this.user = response.data;
+            })
+            .catch(error => {
+                this.$router.push({ name: 'Login'});
+            })
+    },
     data() {
         return {
             sidebar: false,
-            menuItems: [
-                { path: "/dashboard/covid-19", name: "covid-19", title: "Covid-19" },
-            ]
+            user: {},
+        }
+    },
+    computed: {
+        name() {
+            return this.user.name ? this.user.name : '';
         }
     },
     methods: {
@@ -37,6 +73,7 @@ export default {
             })
         }
     }
+
 }
 </script>
 

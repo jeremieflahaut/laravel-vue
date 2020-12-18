@@ -57,25 +57,61 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  created: function created() {
+    var _this = this;
+
+    this.$http.get('/user').then(function (response) {
+      _this.user = response.data;
+    })["catch"](function (error) {
+      _this.$router.push({
+        name: 'Login'
+      });
+    });
+  },
   data: function data() {
     return {
       sidebar: false,
-      menuItems: [{
-        path: "/dashboard/covid-19",
-        name: "covid-19",
-        title: "Covid-19"
-      }]
+      user: {}
     };
+  },
+  computed: {
+    name: function name() {
+      return this.user.name ? this.user.name : '';
+    }
   },
   methods: {
     logout: function logout() {
-      var _this = this;
+      var _this2 = this;
 
       this.$http.post('/logout').then(function () {
         localStorage.removeItem('auth');
 
-        _this.$router.push({
+        _this2.$router.push({
           name: 'Login'
         });
       });
@@ -179,10 +215,9 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-app-bar",
-    { attrs: { dense: "" } },
+    { attrs: { dense: "", dark: "", color: "primary" } },
     [
       _c("v-app-bar-nav-icon", {
-        staticClass: "hidden-md-and-up",
         on: {
           click: function($event) {
             $event.preventDefault()
@@ -194,7 +229,37 @@ var render = function() {
       _c(
         "v-navigation-drawer",
         {
-          attrs: { app: "", "hide-overlay": "", temporary: "" },
+          attrs: { app: "", "hide-overlay": "", temporary: "", light: "" },
+          scopedSlots: _vm._u([
+            {
+              key: "append",
+              fn: function() {
+                return [
+                  _c(
+                    "div",
+                    { staticClass: "pa-2" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { block: "", color: "primary" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.logout($event)
+                            }
+                          }
+                        },
+                        [_vm._v("Logout")]
+                      )
+                    ],
+                    1
+                  )
+                ]
+              },
+              proxy: true
+            }
+          ]),
           model: {
             value: _vm.sidebar,
             callback: function($$v) {
@@ -205,72 +270,79 @@ var render = function() {
         },
         [
           _c(
-            "v-list",
+            "v-list-item",
+            { staticClass: "text-center" },
             [
-              _vm._l(_vm.menuItems, function(item, i) {
-                return _c(
-                  "v-list-item",
-                  { key: i, attrs: { exact: "", to: item.path } },
-                  [_vm._v(_vm._s(item.title))]
-                )
-              }),
-              _vm._v(" "),
               _c(
-                "v-list-item",
-                {
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.logout($event)
-                    }
-                  }
-                },
-                [_vm._v("Logout ")]
+                "v-list-item-content",
+                [_c("v-list-item-title", [_vm._v(_vm._s(_vm.name))])],
+                1
               )
             ],
-            2
+            1
+          ),
+          _vm._v(" "),
+          _c("v-divider"),
+          _vm._v(" "),
+          _c(
+            "v-list",
+            { attrs: { dense: "" } },
+            [
+              _c(
+                "v-list-item",
+                { attrs: { exact: "", to: "/dashboard" } },
+                [_c("v-list-item-title", [_vm._v("Accueil")])],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "v-list-group",
+                {
+                  scopedSlots: _vm._u([
+                    {
+                      key: "activator",
+                      fn: function() {
+                        return [
+                          _c(
+                            "v-list-item-content",
+                            [_c("v-list-item-title", [_vm._v("Divers")])],
+                            1
+                          )
+                        ]
+                      },
+                      proxy: true
+                    }
+                  ])
+                },
+                [
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item",
+                    { attrs: { exact: "", to: "/dashboard/covid-19" } },
+                    [
+                      _c(
+                        "v-list-item-icon",
+                        [_c("v-icon", [_vm._v("mdi-hospital-box-outline")])],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-list-item-title", [_vm._v("Covid-19")])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
           )
         ],
         1
       ),
       _vm._v(" "),
-      _c("v-toolbar-title", [_vm._v("Jarvis")]),
-      _vm._v(" "),
-      _c("v-spacer"),
-      _vm._v(" "),
-      _c(
-        "v-toolbar-items",
-        { staticClass: "hidden-sm-and-down" },
-        [
-          _vm._l(_vm.menuItems, function(item) {
-            return _c(
-              "v-btn",
-              { key: item.title, attrs: { text: "" } },
-              [
-                _c("router-link", { attrs: { tag: "li", to: item.path } }, [
-                  _vm._v(_vm._s(item.title))
-                ])
-              ],
-              1
-            )
-          }),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              attrs: { text: "" },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.logout($event)
-                }
-              }
-            },
-            [_vm._v("Logout")]
-          )
-        ],
-        2
-      )
+      _c("v-toolbar-title", [_vm._v("Jarvis")])
     ],
     1
   )

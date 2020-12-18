@@ -4,10 +4,8 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const routes = [
-    {
-        path: "/",
-        redirect: { name: 'Login' }
-    },
+    { path: "/", redirect: { name: 'Login' } },
+
     {
         path: "/login",
         name: 'Login',
@@ -16,26 +14,25 @@ const routes = [
     },
     {
         path: "/dashboard",
-        name: 'Dashboard',
-        component: () => import(/* webpackChunkName: "js/chunks/components" */'../views/Dashboard'),
+        component: () => import(/* webpackChunkName: "js/chunks/components" */'../Layout/Dashboard'),
         meta: { authOnly: true},
         children: [
             {
+                path: "/",
+                name: 'Dashboard',
+                component: () => import(/* webpackChunkName: "js/chunks/components" */'../views/Home'),
+                meta: { refreshPath: '/dashboard', authOnly: true}
+            },
+            {
                 path: "covid-19",
                 name: 'covid-19',
-                component: () => import(/* webpackChunkName: "js/chunks/components" */'../views/Covid'),
+                component: () => import(/* webpackChunkName: "js/chunks/components" */'../views/divers/Covid'),
                 meta: { authOnly: true}
             }
         ]
     },
 
-
-
-
-    {
-        path: "*",
-        redirect: { name: 'Dashboard' }
-    }
+    { path: "*", redirect: { name: 'Dashboard' } }
 ];
 
 const router = new Router({
